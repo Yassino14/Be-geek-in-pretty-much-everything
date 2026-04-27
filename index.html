@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GEEK — Skilled in Almost Everything | Y. Louati</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,300;1,500&family=IBM+Plex+Mono:wght@300;400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #06060f;
+      --surface: #0c0c1e;
+      --surface2: #12122a;
+      --border: rgba(255,255,255,0.06);
+      --cyan: #00e5ff;
+      --violet: #9d71ff;
+      --gold: #f5c842;
+      --text: #ededf5;
+      --muted: #7070a0;
+      --c-science: #00e5ff;
+      --c-tech: #9d71ff;
+      --c-math: #00ffaa;
+      --c-arts: #ff6ba8;
+      --c-history: #fbbf24;
+      --c-nature: #4ade80;
+      --c-medicine: #2dd4bf;
+      --c-earth: #60a5fa;
+      --c-engineering: #fb923c;
+      --c-space: #c084fc;
+      --c-economics: #f5c842;
+      --c-psychology: #f472b6;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 4px; }
+
+    /* ───────────────── CANVAS BG ───────────────── */
+    #stars-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ───────────────── NAV ───────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.2rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(6,6,15,0.7);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      transition: padding 0.3s;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--cyan); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-cta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      padding: 0.6rem 1.5rem;
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      background: transparent;
+      cursor: pointer;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--cyan);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s;
+      z-index: -1;
+    }
+    .nav-cta:hover { color: var(--bg); }
+    .nav-cta:hover::before { transform: scaleX(1); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+    .hamburger span { width: 24px; height: 1.5px; background: var(--text); transition: all 0.3s; display: block; }
+
+    /* ───────────────── HERO ───────────────── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-left { max-width: 580px; }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      border: 1px solid rgba(0,229,255,0.25);
+      padding: 0.4rem 1rem;
+      margin-bottom: 2rem;
+      animation: fadeSlideUp 0.8s ease forwards;
+    }
+    .hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); animation: pulse 2s infinite; }
+    .hero-h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.8rem;
+      animation: fadeSlideUp 0.8s 0.1s ease both;
+    }
+    .hero-h1 em {
+      font-style: italic;
+      color: var(--cyan);
+      display: block;
+    }
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      line-height: 1.5;
+      animation: fadeSlideUp 0.8s 0.2s ease both;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-bottom: 3rem;
+      animation: fadeSlideUp 0.8s 0.3s ease both;
+    }
+    .stat-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 2.4rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1;
+    }
+    .stat-num span { color: var(--cyan); }
+    .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      animation: fadeSlideUp 0.8s 0.4s ease both;
+    }
+    .btn-primary {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1rem 2.2rem;
+      background: var(--cyan);
+      color: var(--bg);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 500;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,229,255,0.3); }
+    .btn-secondary {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1rem 2.2rem;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      transition: all 0.25s;
+    }
+    .btn-secondary:hover { border-color: var(--violet); color: var(--violet); transform: translateY(-2px); }
+
+    /* Book Mockup */
+    .hero-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeSlideUp 0.8s 0.5s ease both;
+    }
+    .book-wrapper {
+      perspective: 1200px;
+    }
+    .book-3d {
+      width: 260px;
+      height: 360px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateY(-25deg) rotateX(5deg);
+      transition: transform 0.6s ease;
+      animation: bookFloat 6s ease-in-out infinite;
+    }
+    .book-3d:hover { transform: rotateY(-5deg) rotateX(3deg); }
+    .book-front {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #0e0e2a 0%, #1a0a3a 40%, #0a1a2a 100%);
+      border-radius: 3px 8px 8px 3px;
+      border: 1px solid rgba(0,229,255,0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2.2rem 1.8rem;
+      box-shadow: 
+        inset -3px 0 10px rgba(0,0,0,0.4),
+        0 30px 80px rgba(0,0,0,0.7),
+        0 0 40px rgba(0,229,255,0.08);
+      backface-visibility: hidden;
+      overflow: hidden;
+    }
+    .book-front::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+    }
+    .book-front::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 20%, rgba(0,229,255,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .book-grid-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .book-top {
+      position: relative;
+      z-index: 2;
+    }
+    .book-subtitle-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.18em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      opacity: 0.8;
+    }
+    .book-icon-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+    }
+    .book-icon-dot {
+      width: 22px; height: 22px;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem;
+    }
+    .book-title-main {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.95rem;
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .book-title-accent { color: var(--cyan); font-style: italic; }
+    .book-middle {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+    .book-number-display {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 4.5rem;
+      font-weight: 500;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0.7;
+    }
+    .book-number-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.45rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .book-bottom { position: relative; z-index: 2; }
+    .book-author {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+    .book-author strong { color: var(--text); font-style: normal; font-weight: 500; }
+    .book-spine {
+      position: absolute;
+      top: 0; left: -18px;
+      width: 18px; height: 100%;
+      background: linear-gradient(90deg, #060610, #0e0e25);
+      border-radius: 3px 0 0 3px;
+      transform: rotateY(-90deg) translateX(-9px);
+      transform-origin: right;
+      box-shadow: inset -2px 0 6px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .book-spine-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.4rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      white-space: nowrap;
+    }
+    .book-glow {
+      position: absolute;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(0,229,255,0.12) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      border-radius: 50%;
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+
+    /* ───────────────── SECTION WRAPPER ───────────────── */
+    section { position: relative; z-index: 1; }
+    .section-inner { max-width: 1400px; margin: 0 auto; padding: 0 4rem; }
+
+    /* ───────────────── DIVIDER ───────────────── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin: 0 auto;
+      max-width: 1400px;
+      padding: 0 4rem;
+    }
+    .divider-line { flex: 1; height: 1px; background: var(--border); }
+    .divider-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* ───────────────── FACTS SECTION ───────────────── */
+    #facts { padding: 6rem 0 8rem; }
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .section-tag {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .section-title em { font-style: italic; color: var(--cyan); }
+    .section-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-top: 1rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+
+    /* Search & Filter */
+    .facts-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .search-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .search-input {
+      width: 100%;
+      padding: 0.95rem 1.2rem 0.95rem 3rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+      border-radius: 2px;
+    }
+    .search-input::placeholder { color: var(--muted); }
+    .search-input:focus { border-color: var(--cyan); }
+    .search-count {
+      position: absolute;
+      right: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .filter-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.1rem;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      border-radius: 2px;
+    }
+    .filter-btn:hover { border-color: var(--text); color: var(--text); }
+    .filter-btn.active { background: var(--surface2); color: var(--text); border-color: var(--text); }
+    .filter-btn[data-cat="science"].active { border-color: var(--c-science); color: var(--c-science); }
+    .filter-btn[data-cat="technology"].active { border-color: var(--c-tech); color: var(--c-tech); }
+    .filter-btn[data-cat="mathematics"].active { border-color: var(--c-math); color: var(--c-math); }
+    .filter-btn[data-cat="arts"].active { border-color: var(--c-arts); color: var(--c-arts); }
+    .filter-btn[data-cat="history"].active { border-color: var(--c-history); color: var(--c-history); }
+    .filter-btn[data-cat="nature"].active { border-color: var(--c-nature); color: var(--c-nature); }
+    .filter-btn[data-cat="medicine"].active { border-color: var(--c-medicine); color: var(--c-medicine); }
+    .filter-btn[data-cat="earth"].active { border-color: var(--c-earth); color: var(--c-earth); }
+    .filter-btn[data-cat="engineering"].active { border-color: var(--c-engineering); color: var(--c-engineering); }
+    .filter-btn[data-cat="space"].active { border-color: var(--c-space); color: var(--c-space); }
+    .filter-btn[data-cat="economics"].active { border-color: var(--c-economics); color: var(--c-economics); }
+    .filter-btn[data-cat="psychology"].active { border-color: var(--c-psychology); color: var(--c-psychology); }
+
+    /* Facts Grid */
+    .facts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1px;
+      border: 1px solid var(--border);
+    }
+
+    .fact-card {
+      background: var(--surface);
+      padding: 1.8rem;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .fact-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fact-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 2px;
+      width: 0;
+      transition: width 0.4s ease;
+    }
+    .fact-card:hover { background: var(--surface2); transform: translateY(-2px); z-index: 2; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+    .fact-card:hover::before { width: 100%; }
+
+    .fact-card[data-cat="science"]::before, .fact-card[data-cat="science"] .fact-num { color: var(--c-science); }
+    .fact-card[data-cat="science"]::before { background: var(--c-science); }
+    .fact-card[data-cat="science"]:hover .cat-badge { border-color: var(--c-science); color: var(--c-science); }
+    .fact-card[data-cat="science"] .fact-icon { color: var(--c-science); }
+
+    .fact-card[data-cat="technology"]::before { background: var(--c-tech); }
+    .fact-card[data-cat="technology"] .fact-num { color: var(--c-tech); }
+    .fact-card[data-cat="technology"]:hover .cat-badge { border-color: var(--c-tech); color: var(--c-tech); }
+    .fact-card[data-cat="technology"] .fact-icon { color: var(--c-tech); }
+
+    .fact-card[data-cat="mathematics"]::before { background: var(--c-math); }
+    .fact-card[data-cat="mathematics"] .fact-num { color: var(--c-math); }
+    .fact-card[data-cat="mathematics"]:hover .cat-badge { border-color: var(--c-math); color: var(--c-math); }
+    .fact-card[data-cat="mathematics"] .fact-icon { color: var(--c-math); }
+
+    .fact-card[data-cat="arts"]::before { background: var(--c-arts); }
+    .fact-card[data-cat="arts"] .fact-num { color: var(--c-arts); }
+    .fact-card[data-cat="arts"]:hover .cat-badge { border-color: var(--c-arts); color: var(--c-arts); }
+    .fact-card[data-cat="arts"] .fact-icon { color: var(--c-arts); }
+
+    .fact-card[data-cat="history"]::before { background: var(--c-history); }
+    .fact-card[data-cat="history"] .fact-num { color: var(--c-history); }
+    .fact-card[data-cat="history"]:hover .cat-badge { border-color: var(--c-history); color: var(--c-history); }
+    .fact-card[data-cat="history"] .fact-icon { color: var(--c-history); }
+
+    .fact-card[data-cat="nature"]::before { background: var(--c-nature); }
+    .fact-card[data-cat="nature"] .fact-num { color: var(--c-nature); }
+    .fact-card[data-cat="nature"]:hover .cat-badge { border-color: var(--c-nature); color: var(--c-nature); }
+    .fact-card[data-cat="nature"] .fact-icon { color: var(--c-nature); }
+
+    .fact-card[data-cat="medicine"]::before { background: var(--c-medicine); }
+    .fact-card[data-cat="medicine"] .fact-num { color: var(--c-medicine); }
+    .fact-card[data-cat="medicine"]:hover .cat-badge { border-color: var(--c-medicine); color: var(--c-medicine); }
+    .fact-card[data-cat="medicine"] .fact-icon { color: var(--c-medicine); }
+
+    .fact-card[data-cat="earth"]::before { background: var(--c-earth); }
+    .fact-card[data-cat="earth"] .fact-num { color: var(--c-earth); }
+    .fact-card[data-cat="earth"]:hover .cat-badge { border-color: var(--c-earth); color: var(--c-earth); }
+    .fact-card[data-cat="earth"] .fact-icon { color: var(--c-earth); }
+
+    .fact-card[data-cat="engineering"]::before { background: var(--c-engineering); }
+    .fact-card[data-cat="engineering"] .fact-num { color: var(--c-engineering); }
+    .fact-card[data-cat="engineering"]:hover .cat-badge { border-color: var(--c-engineering); color: var(--c-engineering); }
+    .fact-card[data-cat="engineering"] .fact-icon { color: var(--c-engineering); }
+
+    .fact-card[data-cat="space"]::before { background: var(--c-space); }
+    .fact-card[data-cat="space"] .fact-num { color: var(--c-space); }
+    .fact-card[data-cat="space"]:hover .cat-badge { border-color: var(--c-space); color: var(--c-space); }
+    .fact-card[data-cat="space"] .fact-icon { color: var(--c-space); }
+
+    .fact-card[data-cat="economics"]::before { background: var(--c-economics); }
+    .fact-card[data-cat="economics"] .fact-num { color: var(--c-economics); }
+    .fact-card[data-cat="economics"]:hover .cat-badge { border-color: var(--c-economics); color: var(--c-economics); }
+    .fact-card[data-cat="economics"] .fact-icon { color: var(--c-economics); }
+
+    .fact-card[data-cat="psychology"]::before { background: var(--c-psychology); }
+    .fact-card[data-cat="psychology"] .fact-num { color: var(--c-psychology); }
+    .fact-card[data-cat="psychology"]:hover .cat-badge { border-color: var(--c-psychology); color: var(--c-psychology); }
+    .fact-card[data-cat="psychology"] .fact-icon { color: var(--c-psychology); }
+
+    .fact-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.2rem;
+    }
+    .fact-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+    .fact-icon { font-size: 1.4rem; transition: transform 0.3s; }
+    .fact-card:hover .fact-icon { transform: scale(1.2) rotate(5deg); }
+
+    .cat-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .fact-field {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.7rem;
+      line-height: 1.1;
+    }
+    .fact-text {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.65;
+      flex: 1;
+    }
+    .fact-source {
+      margin-top: 1.2rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.06em;
+      color: rgba(112,112,160,0.5);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.8rem;
+    }
+    .fact-source i { font-size: 0.5rem; }
+
+    /* ───────────────── NO RESULTS ───────────────── */
+    .no-results {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 5rem 2rem;
+      display: none;
+    }
+    .no-results.show { display: block; }
+    .no-results-icon { font-size: 3rem; margin-bottom: 1rem; color: var(--muted); }
+    .no-results h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+    .no-results p { color: var(--muted); font-size: 0.9rem; }
+
+    /* ───────────────── BOOK SECTION ───────────────── */
+    #book {
+      padding: 8rem 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .book-section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .book-info .section-tag { text-align: left; }
+    .book-info .section-title { text-align: left; font-size: clamp(2rem, 4vw, 3.5rem); }
+    .book-description {
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .book-meta {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .book-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.85rem;
+    }
+    .book-meta-row i {
+      color: var(--cyan);
+      width: 16px;
+      font-size: 0.8rem;
+    }
+    .book-meta-row span { color: var(--muted); }
+    .book-meta-row strong { color: var(--text); }
+    .book-cta {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-download {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1rem 2.2rem;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      color: var(--bg);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    .btn-download:hover { transform: translateY(-3px); box-shadow: 0 20px 50px rgba(0,229,255,0.25); opacity: 0.9; }
+    .btn-download-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.8rem;
+    }
+
+    .book-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .book-large {
+      width: 300px;
+      height: 420px;
+      background: linear-gradient(145deg, #0e0e2a 0%, #1a0a3e 50%, #0a1a2e 100%);
+      border-radius: 4px 12px 12px 4px;
+      border: 1px solid rgba(0,229,255,0.2);
+      position: relative;
+      box-shadow:
+        -12px 0 30px rgba(0,0,0,0.6),
+        0 40px 100px rgba(0,0,0,0.6),
+        0 0 60px rgba(0,229,255,0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2.5rem 2rem;
+      overflow: hidden;
+    }
+    .book-large::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--cyan), var(--violet), var(--gold));
+    }
+    .book-large::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse at 20% 15%, rgba(0,229,255,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(157,113,255,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .book-large-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.025) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .book-large-circles {
+      position: absolute;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .bcirc {
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .bcirc:nth-child(1) { width: 80px; height: 80px; }
+    .bcirc:nth-child(2) { width: 56px; height: 56px; border-color: rgba(0,229,255,0.1); }
+    .bcirc:nth-child(3) { width: 36px; height: 36px; }
+    .blarge-top { position: relative; z-index: 2; }
+    .blarge-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.2em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+    }
+    .blarge-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    .blarge-title em { color: var(--cyan); font-style: italic; }
+    .blarge-bottom { position: relative; z-index: 2; }
+    .blarge-author {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+    .blarge-author strong { color: var(--text); font-style: normal; }
+    .blarge-edition {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      color: rgba(112,112,160,0.5);
+      text-transform: uppercase;
+      margin-top: 0.4rem;
+    }
+    .book-decoration-ring {
+      position: absolute;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,229,255,0.08);
+      top: -60px; right: -60px;
+      animation: spin 30s linear infinite;
+    }
+    .book-decoration-ring::before {
+      content: '';
+      position: absolute;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      top: 50%; left: -3px;
+      transform: translateY(-50%);
+    }
+
+    /* ───────────────── ABOUT SECTION ───────────────── */
+    #about {
+      padding: 8rem 0;
+    }
+    .about-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about-content .section-tag { text-align: left; }
+    .about-content .section-title { text-align: left; font-size: clamp(2rem, 4vw, 3.2rem); }
+    .about-text {
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+    .about-text + .about-text { margin-top: 1rem; }
+    .about-signature {
+      margin-top: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .sig-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--surface2), var(--surface));
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+    .sig-info { line-height: 1.3; }
+    .sig-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .sig-title-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    .about-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .field-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      transition: all 0.3s;
+    }
+    .field-card:hover { border-color: rgba(0,229,255,0.2); background: var(--surface2); }
+    .field-card-icon { font-size: 1.5rem; margin-bottom: 0.8rem; }
+    .field-card-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1;
+    }
+    .field-card-num span { color: var(--cyan); }
+    .field-card-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    /* ───────────────── FOOTER ───────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      position: relative;
+      z-index: 1;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text);
+    }
+    .footer-logo span { color: var(--cyan); }
+    .footer-copy {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--cyan); }
+
+    /* ───────────────── ANIMATIONS ───────────────── */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bookFloat {
+      0%, 100% { transform: rotateY(-25deg) rotateX(5deg) translateY(0); }
+      50% { transform: rotateY(-25deg) rotateX(5deg) translateY(-12px); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%,-50%) scale(1); }
+      50% { opacity: 0.8; transform: translate(-50%,-50%) scale(1.1); }
+    }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* ───────────────── RESPONSIVE ───────────────── */
+    @media (max-width: 1100px) {
+      #hero { grid-template-columns: 1fr; text-align: center; padding: 8rem 2rem 4rem; }
+      .hero-left { max-width: 100%; }
+      .hero-stats { justify-content: center; }
+      .hero-actions { justify-content: center; }
+      .hero-right { margin-top: 4rem; }
+      .book-section-inner { grid-template-columns: 1fr; gap: 4rem; text-align: center; }
+      .book-info .section-tag, .book-info .section-title { text-align: center; }
+      .book-cta { justify-content: center; }
+      .book-large-circles { display: none; }
+      .about-inner { grid-template-columns: 1fr; gap: 4rem; }
+      .about-content .section-tag, .about-content .section-title { text-align: center; }
+      .about-text { text-align: center; }
+      .about-signature { justify-content: center; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .section-inner, .divider { padding: 0 1.5rem; }
+      .facts-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+      .book-section-inner, .about-inner { padding: 0 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .hero-h1 { font-size: 2.8rem; }
+      .book-3d { width: 200px; height: 280px; }
+      .hero-stats { gap: 2rem; }
+    }
+
+    /* Scroll progress */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+      z-index: 999;
+      transition: width 0.1s;
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: rgba(6,6,15,0.97);
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+      backdrop-filter: blur(20px);
+    }
+    .mobile-menu.open { transform: translateX(0); }
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--cyan); }
+    .mobile-close {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      background: none; border: none;
+      color: var(--text); font-size: 1.5rem; cursor: pointer;
+    }
+
+    /* Tooltip */
+    .fact-card[title]:hover::after {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose"><i class="fa-solid fa-xmark"></i></button>
+  <a href="#hero" onclick="closeMobile()">Home</a>
+  <a href="#facts" onclick="closeMobile()">100 Facts</a>
+  <a href="#book" onclick="closeMobile()">The Book</a>
+  <a href="#about" onclick="closeMobile()">About</a>
+</div>
+
+<!-- Navigation -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">G<span>E</span>EK</a>
+  <ul class="nav-links">
+    <li><a href="#facts">100 Facts</a></li>
+    <li><a href="#book">The Book</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <a href="#book" class="nav-cta"><i class="fa-solid fa-download"></i> Get the Book</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-tag">
+      <span>New Release — 2025</span>
+    </div>
+    <h1 class="hero-h1">
+      Skilled<br>in <em>Almost Everything</em>
+    </h1>
+    <p class="hero-sub">One book. One thousand hours of research.<br>The essential knowledge across every field.</p>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num" data-target="100">0<span>+</span></div>
+        <div class="stat-label">Fields Covered</div>
+      </div>
+      <div>
+        <div class="stat-num" data-target="100">0<span>+</span></div>
+        <div class="stat-label">Verified Facts</div>
+      </div>
+      <div>
+        <div class="stat-num" data-target="1">0<span> Vol.</span></div>
+        <div class="stat-label">Definitive Edition</div>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a href="#facts" class="btn-primary"><i class="fa-solid fa-bolt"></i> Explore Facts</a>
+      <a href="#book" class="btn-secondary"><i class="fa-solid fa-book-open"></i> About the Book</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="book-wrapper">
+      <div class="book-glow"></div>
+      <div class="book-3d">
+        <div class="book-spine">
+          <span class="book-spine-text">Skilled in Almost Everything — Y. Louati</span>
+        </div>
+        <div class="book-front">
+          <div class="book-grid-pattern"></div>
+          <div class="book-top">
+            <div class="book-subtitle-tag">✦ The Knowledge Compendium</div>
+            <div class="book-icon-row">
+              <div class="book-icon-dot" style="background:rgba(0,229,255,0.15);color:var(--cyan)"><i class="fa-solid fa-atom" style="font-size:0.55rem"></i></div>
+              <div class="book-icon-dot" style="background:rgba(157,113,255,0.15);color:var(--violet)"><i class="fa-solid fa-brain" style="font-size:0.55rem"></i></div>
+              <div class="book-icon-dot" style="background:rgba(245,200,66,0.15);color:var(--gold)"><i class="fa-solid fa-rocket" style="font-size:0.55rem"></i></div>
+            </div>
+            <div class="book-title-main">Skilled<br>in <span class="book-title-accent">Almost<br>Everything</span></div>
+          </div>
+          <div class="book-middle">
+            <div class="book-number-display">100</div>
+            <div class="book-number-label">Fields of Knowledge</div>
+          </div>
+          <div class="book-bottom">
+            <div class="book-author">by <strong>Y. Louati</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Divider -->
+<div class="divider">
+  <div class="divider-line"></div>
+  <div class="divider-text">100 fields · 100 verified facts · 1 book</div>
+  <div class="divider-line"></div>
+</div>
+
+<!-- Facts Section -->
+<section id="facts">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">// facts_database.geek</div>
+      <h2 class="section-title">100 Fields,<br><em>100 Essential Facts</em></h2>
+      <p class="section-desc">Every fact is sourced from peer-reviewed research, government databases, and leading academic institutions. Hover each card to explore.</p>
+    </div>
+
+    <div class="facts-controls">
+      <div class="search-wrapper">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search any field or fact…">
+        <span class="search-count" id="searchCount">100</span>
+      </div>
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-cat="all">All Fields</button>
+        <button class="filter-btn" data-cat="science">Science</button>
+        <button class="filter-btn" data-cat="technology">Technology</button>
+        <button class="filter-btn" data-cat="mathematics">Mathematics</button>
+        <button class="filter-btn" data-cat="arts">Arts</button>
+        <button class="filter-btn" data-cat="history">History</button>
+        <button class="filter-btn" data-cat="nature">Nature</button>
+        <button class="filter-btn" data-cat="medicine">Medicine</button>
+        <button class="filter-btn" data-cat="earth">Earth</button>
+        <button class="filter-btn" data-cat="engineering">Engineering</button>
+        <button class="filter-btn" data-cat="space">Space</button>
+        <button class="filter-btn" data-cat="economics">Economics</button>
+        <button class="filter-btn" data-cat="psychology">Psychology</button>
+      </div>
+    </div>
+
+    <div class="facts-grid" id="factsGrid">
+      <div class="no-results" id="noResults">
+        <div class="no-results-icon"><i class="fa-solid fa-satellite-dish"></i></div>
+        <h3>No facts found</h3>
+        <p>Try a different keyword or category.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Book Section -->
+<section id="book">
+  <div class="book-section-inner">
+    <div class="book-info">
+      <div class="section-tag">// the_compendium</div>
+      <h2 class="section-title">The Book That<br><em>Started It All</em></h2>
+      <p class="book-description">
+        <em>Skilled in Almost Everything</em> is the result of thousands of hours of research distilled into one elegant volume. Each chapter unlocks a new field — from quantum physics to culinary arts — giving you the essential insights that define each discipline.
+      </p>
+      <p class="book-description" style="margin-top:0.8rem;">
+        Whether you're a student, a professional, or simply a curious mind, this book is your passport to becoming fluent in the language of every field.
+      </p>
+      <div class="book-meta">
+        <div class="book-meta-row"><i class="fa-solid fa-user"></i><span>Author: </span><strong>Y. Louati</strong></div>
+        <div class="book-meta-row"><i class="fa-solid fa-layer-group"></i><span>Coverage: </span><strong>100 Fields of Human Knowledge</strong></div>
+        <div class="book-meta-row"><i class="fa-solid fa-certificate"></i><span>Sources: </span><strong>Peer-reviewed · Government data · Academic institutions</strong></div>
+        <div class="book-meta-row"><i class="fa-solid fa-calendar"></i><span>Edition: </span><strong>First Edition — 2025</strong></div>
+      </div>
+      <div class="book-cta">
+        <a href="#" class="btn-download" id="downloadBtn">
+          <i class="fa-solid fa-download"></i> Download the Book
+        </a>
+      </div>
+      <div class="btn-download-note">
+        <i class="fa-solid fa-circle-info"></i>
+        Document will be available once provided by the author.
+      </div>
+    </div>
+    <div class="book-visual">
+      <div class="book-decoration-ring"></div>
+      <div class="book-large">
+        <div class="book-large-grid"></div>
+        <div class="book-large-circles">
+          <div class="bcirc"></div>
+          <div class="bcirc"></div>
+          <div class="bcirc"></div>
+        </div>
+        <div class="blarge-top">
+          <div class="blarge-tag">✦ First Edition · 2025</div>
+          <div class="blarge-title">Skilled in<br><em>Almost<br>Everything</em></div>
+        </div>
+        <div class="blarge-bottom">
+          <div class="blarge-author">by <strong>Y. Louati</strong></div>
+          <div class="blarge-edition">100 fields · definitive compendium</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-content">
+      <div class="section-tag">// about_the_geek_project</div>
+      <h2 class="section-title">Knowledge Is<br><em>Power, Organized</em></h2>
+      <p class="about-text">
+        GEEK is the companion platform to the book <em>Skilled in Almost Everything</em>. This website was created to make the 100 facts accessible, searchable, and beautiful — a living reference for curious minds.
+      </p>
+      <p class="about-text" style="margin-top:1rem;">
+        Every fact listed here is verified against primary sources: scientific journals, national institutions, and world-recognized databases. Knowledge without accuracy is just noise.
+      </p>
+      <div class="about-signature">
+        <div class="sig-avatar">YL</div>
+        <div class="sig-info">
+          <div class="sig-name">Y. Louati</div>
+          <div class="sig-title-text">Author · Researcher · Polymath-in-Progress</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-fields">
+      <div class="field-card">
+        <div class="field-card-icon">🔬</div>
+        <div class="field-card-num">12<span>+</span></div>
+        <div class="field-card-label">Scientific Disciplines</div>
+      </div>
+      <div class="field-card">
+        <div class="field-card-icon">📚</div>
+        <div class="field-card-num">100<span>%</span></div>
+        <div class="field-card-label">Verified Sources</div>
+      </div>
+      <div class="field-card">
+        <div class="field-card-icon">🌍</div>
+        <div class="field-card-num">100<span>+</span></div>
+        <div class="field-card-label">Unique Fields</div>
+      </div>
+      <div class="field-card">
+        <div class="field-card-icon">✦</div>
+        <div class="field-card-num">1<span>st</span></div>
+        <div class="field-card-label">Edition — 2025</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">G<span>E</span>EK</div>
+  <div class="footer-copy">
+    © 2025 Y. Louati — Skilled in Almost Everything<br>
+    All facts verified from primary sources
+  </div>
+  <div class="footer-links">
+    <a href="#hero">Home</a>
+    <a href="#facts">Facts</a>
+    <a href="#book">Book</a>
+    <a href="#about">About</a>
+  </div>
+</footer>
+
+<script>
+// ─────────── DATA ───────────
+const facts = [
+  // SCIENCE
+  { id:1, field:"Physics", cat:"science", catLabel:"Science", icon:"fa-atom",
+    fact:"The speed of light in a vacuum is exactly 299,792,458 m/s — a fixed constant so precise it now defines the meter itself.",
+    source:"NIST — National Institute of Standards and Technology" },
+  { id:2, field:"Chemistry", cat:"science", catLabel:"Science", icon:"fa-flask",
+    fact:"The periodic table contains 118 confirmed elements, of which 94 occur naturally on Earth; the rest are synthesized in laboratories.",
+    source:"IUPAC — International Union of Pure and Applied Chemistry" },
+  { id:3, field:"Quantum Mechanics", cat:"science", catLabel:"Science", icon:"fa-wave-square",
+    fact:"A photon has zero rest mass yet carries momentum — a fact described by E = pc, where p is momentum and c is the speed of light.",
+    source:"Feynman Lectures on Physics, Caltech" },
+  { id:4, field:"Thermodynamics", cat:"science", catLabel:"Science", icon:"fa-temperature-low",
+    fact:"Absolute zero (−273.15 °C / 0 K) is the lowest possible temperature; at this point molecular motion reaches its minimum quantum-mechanical state.",
+    source:"NIST — Fundamental Physical Constants" },
+  { id:5, field:"Acoustics", cat:"science", catLabel:"Science", icon:"fa-volume-high",
+    fact:"Sound travels approximately 4.3× faster in water (1,480 m/s) than in air (343 m/s) at room temperature due to water's higher bulk modulus.",
+    source:"Kaye & Laby, National Physical Laboratory, UK" },
+  { id:6, field:"Optics", cat:"science", catLabel:"Science", icon:"fa-eye",
+    fact:"White light is composed of all visible-spectrum wavelengths (~380–740 nm); a prism separates them by refractive index into the ROYGBIV sequence.",
+    source:"CIE — International Commission on Illumination" },
+  { id:7, field:"Nuclear Physics", cat:"science", catLabel:"Science", icon:"fa-radiation",
+    fact:"The atomic nucleus occupies roughly 10⁻¹⁵ m yet contains 99.9% of the atom's mass, making it about 10,000× smaller than the full atom.",
+    source:"CERN — European Organization for Nuclear Research" },
+  { id:8, field:"Electromagnetism", cat:"science", catLabel:"Science", icon:"fa-bolt",
+    fact:"Maxwell's four equations (1865) elegantly unify electricity, magnetism, and light into a single theoretical framework, predicting electromagnetic waves.",
+    source:"Maxwell, J.C. (1865). A Dynamical Theory of the Electromagnetic Field. Phil. Trans. R. Soc." },
+  { id:9, field:"Fluid Dynamics", cat:"science", catLabel:"Science", icon:"fa-water",
+    fact:"Bernoulli's principle (1738) explains aerodynamic lift: faster airflow over a wing's curved upper surface creates lower pressure, generating upward force.",
+    source:"Bernoulli, D. (1738). Hydrodynamica. Basel." },
+  { id:10, field:"Materials Science", cat:"science", catLabel:"Science", icon:"fa-gem",
+    fact:"Graphene — a single layer of carbon atoms — is approximately 200× stronger than steel by weight, yet just one atom thick (0.335 nm).",
+    source:"Novoselov et al. (2004). Science 306, 666–669. Nobel Prize Physics 2010." },
+  // SCIENCE (Continued)
+  { id:11, field:"Genetics", cat:"science", catLabel:"Science", icon:"fa-dna",
+    fact:"Humans share about 50% of their DNA with bananas, reflecting deeply conserved cellular processes essential for all life on Earth.",
+    source:"National Human Genome Research Institute (NHGRI)" },
+  { id:12, field:"Anatomy", cat:"science", catLabel:"Science", icon:"fa-bone",
+    fact:"The human body has 206 bones, but more than a quarter of them (52 bones) are located entirely in the feet and ankles.",
+    source:"Gray's Anatomy" },
+  { id:13, field:"Neurology", cat:"science", catLabel:"Science", icon:"fa-brain",
+    fact:"The human brain operates on roughly 20 watts of power—just enough to power a dim, energy-efficient LED light bulb.",
+    source:"Stanford University" },
+  { id:14, field:"Microbiology", cat:"science", catLabel:"Science", icon:"fa-microscope",
+    fact:"The total collective weight of all bacteria on Earth is estimated to be about 1,100 times greater than the total weight of all human beings.",
+    source:"PNAS — Proceedings of the National Academy of Sciences" },
+  { id:15, field:"Botany", cat:"science", catLabel:"Science", icon:"fa-leaf",
+    fact:"Trees can communicate and share nutrients through a vast, underground network of mycorrhizal fungi, often referred to as the 'Wood Wide Web'.",
+    source:"Simard et al. (1997). Nature." },
+  { id:16, field:"Geology", cat:"science", catLabel:"Science", icon:"fa-mountain",
+    fact:"Earth's tectonic plates move at roughly the same speed that human fingernails grow, which is about 2 to 5 centimeters per year.",
+    source:"USGS — United States Geological Survey" },
+  { id:17, field:"Meteorology", cat:"science", catLabel:"Science", icon:"fa-cloud-showers-heavy",
+    fact:"A single, fluffy cumulus cloud can weigh approximately 1.1 million pounds (500,000 kg), equivalent to the weight of about 100 elephants.",
+    source:"National Center for Atmospheric Research" },
+  { id:18, field:"Oceanography", cat:"science", catLabel:"Science", icon:"fa-water",
+    fact:"The Mariana Trench is so deep (about 36,000 feet) that if Mount Everest were dropped inside, its peak would still be over a mile underwater.",
+    source:"NOAA — National Oceanic and Atmospheric Administration" },
+  { id:19, field:"Paleontology", cat:"science", catLabel:"Science", icon:"fa-dragon",
+    fact:"The Stegosaurus lived further in time from the Tyrannosaurus Rex than the T. Rex lived from modern human beings.",
+    source:"Smithsonian National Museum of Natural History" },
+  { id:20, field:"Seismology", cat:"science", catLabel:"Science", icon:"fa-wave-square",
+    fact:"Massive earthquakes can shift Earth's mass enough to speed up its rotation; the 2011 Japan earthquake shortened the day by 1.8 microseconds.",
+    source:"NASA — Jet Propulsion Laboratory" },
+  { id:21, field:"Physical Chemistry", cat:"science", catLabel:"Science", icon:"fa-flask",
+    fact:"Helium is the only element that cannot be solidified simply by lowering its temperature at standard atmospheric pressure; it requires extreme pressure.",
+    source:"Royal Society of Chemistry" },
+  { id:22, field:"Biochemistry", cat:"science", catLabel:"Science", icon:"fa-vial",
+    fact:"Human stomach acid (hydrochloric acid) has a pH of 1.5 to 3.5, making it strong enough to dissolve metal razor blades over time.",
+    source:"American Physiological Society" },
+  { id:23, field:"Inorganic Chemistry", cat:"science", catLabel:"Science", icon:"fa-gem",
+    fact:"A diamond and a lump of coal are both made of pure carbon; their radically different properties come purely from their internal crystalline atomic structure.",
+    source:"Gemological Institute of America" },
+  { id:24, field:"Genomics", cat:"science", catLabel:"Science", icon:"fa-project-diagram",
+    fact:"The human genome contains 3.2 billion base pairs; if you typed 60 words per minute, 8 hours a day, it would take 50 years to type them all.",
+    source:"Human Genome Project" },
+  { id:25, field:"Materials Science", cat:"science", catLabel:"Science", icon:"fa-cubes",
+    fact:"Aerogel, often called 'frozen smoke,' is the world's lightest solid material; it is 99.8% air but can support over 10,000 times its own weight.",
+    source:"NASA JPL" },
+  { id:26, field:"Theoretical Physics", cat:"science", catLabel:"Science", icon:"fa-copy",
+    fact:"If you could fold a standard piece of paper 42 times in half, its thickness would grow exponentially until it reached the moon.",
+    source:"Scientific American" },
+  { id:27, field:"Thermodynamics", cat:"science", catLabel:"Science", icon:"fa-fire",
+    fact:"Glass is classified as an 'amorphous solid'; its atoms are not ordered in a crystal lattice, but contrary to myth, it does not slowly flow at room temperature.",
+    source:"Journal of Chemical Physics" },
+  { id:28, field:"Quantum Physics", cat:"science", catLabel:"Science", icon:"fa-atom",
+    fact:"Quantum entanglement allows particles to influence each other instantaneously across vast distances, a phenomenon Einstein dubbed 'spooky action at a distance.'",
+    source:"CERN / Bell's Theorem" },
+  { id:29, field:"Fluid Dynamics", cat:"science", catLabel:"Science", icon:"fa-tint",
+    fact:"When cooled near absolute zero, superfluid helium-4 loses all viscosity, allowing it to flow perpetually and even creep up and over the sides of a cup.",
+    source:"NobelPrize.org (1937 Pyotr Kapitza)" },
+  { id:30, field:"Acoustics", cat:"science", catLabel:"Science", icon:"fa-volume-up",
+    fact:"The loudest sound in recorded history was the 1883 Krakatoa volcanic eruption; it was heard 3,000 miles away and ruptured eardrums 40 miles away.",
+    source:"The Royal Society" },
+  { id:31, field:"Zoology", cat:"science", catLabel:"Science", icon:"fa-paw",
+    fact:"The mantis shrimp punches its prey so fast (50 mph) that the water around its claws literally boils in small, light-emitting bubbles (sonoluminescence).",
+    source:"Science Magazine" },
+  { id:32, field:"Entomology", cat:"science", catLabel:"Science", icon:"fa-bug",
+    fact:"To produce just one pound of honey, a single colony of honeybees must tap roughly 2 million flowers and fly a collective 55,000 miles.",
+    source:"National Honey Board" },
+  { id:33, field:"Marine Biology", cat:"science", catLabel:"Science", icon:"fa-fish",
+    fact:"The 'immortal jellyfish' (Turritopsis dohrnii) can survive biological death by completely reverting to a sexually immature, polyp stage when injured or stressed.",
+    source:"The Biological Bulletin" },
+  { id:34, field:"Ornithology", cat:"science", catLabel:"Science", icon:"fa-dove",
+    fact:"The Arctic Tern experiences more daylight than any other animal, migrating 44,000 miles round-trip from the Arctic to the Antarctic every single year.",
+    source:"National Audubon Society" },
+  { id:35, field:"Herpetology", cat:"science", catLabel:"Science", icon:"fa-frog",
+    fact:"The North American wood frog can survive the winter frozen solid; it pumps urea and glucose through its blood to act as biological antifreeze.",
+    source:"Journal of Experimental Biology" },
+  { id:36, field:"Planetary Science", cat:"science", catLabel:"Science", icon:"fa-globe",
+    fact:"Earth is the only planet in our solar system that is not named after a Greco-Roman deity; the name comes from Old English and Germanic words for 'ground'.",
+    source:"International Astronomical Union (IAU)" },
+  { id:37, field:"Astronomy", cat:"science", catLabel:"Science", icon:"fa-meteor",
+    fact:"There are significantly more trees on Earth (roughly 3 trillion) than there are stars in the Milky Way galaxy (estimated at 100 to 400 billion).",
+    source:"Nature / NASA" },
+  { id:38, field:"Volcanology", cat:"science", catLabel:"Science", icon:"fa-fire-alt",
+    fact:"There are roughly 1,500 potentially active volcanoes on dry land worldwide, which doesn't include the continuous belt of volcanoes hidden on the ocean floor.",
+    source:"USGS Volcano Hazards Program" },
+  { id:39, field:"Glaciology", cat:"science", catLabel:"Science", icon:"fa-icicles",
+    fact:"Glaciers and ice sheets hold about 69% of the world's freshwater, with the vast majority concentrated entirely in Antarctica and Greenland.",
+    source:"National Snow and Ice Data Center (NSIDC)" },
+  { id:40, field:"Immunology", cat:"science", catLabel:"Science", icon:"fa-shield-alt",
+    fact:"The human immune system contains 'memory T-cells' that can remember a specific pathogen for decades, rapidly multiplying if the body is re-exposed.",
+    source:"Nature Immunology" },
+  { id:41, field:"Ecology", cat:"science", catLabel:"Science", icon:"fa-seedling",
+    fact:"Sea otters are a 'keystone species'; by eating sea urchins, they prevent the destruction of kelp forests, which sequester massive amounts of atmospheric carbon.",
+    source:"Ecological Society of America" },
+  { id:42, field:"Chronobiology", cat:"science", catLabel:"Science", icon:"fa-clock",
+    fact:"When completely isolated from sunlight and external time cues, the human body defaults to a natural circadian rhythm that is roughly 24 hours and 11 minutes long.",
+    source:"Harvard Medical School" },
+  { id:43, field:"Virology", cat:"science", catLabel:"Science", icon:"fa-virus",
+    fact:"There are an estimated 10^31 individual viruses on Earth. If laid end to end, they would stretch for 100 million light-years.",
+    source:"Nature Reviews Microbiology" },
+  { id:44, field:"Kinesiology", cat:"science", catLabel:"Science", icon:"fa-running",
+    fact:"The human Achilles tendon is the thickest and strongest tendon in the body, capable of bearing a mechanical load of nearly 1,000 pounds when running or jumping.",
+    source:"Journal of Biomechanics" },
+  { id:45, field:"Botany", cat:"science", catLabel:"Science", icon:"fa-apple-alt",
+    fact:"In strict botanical terms, bananas, watermelons, and pumpkins are classified as berries, while strawberries and raspberries are not.",
+    source:"Botanical Society of America" },
+  { id:46, field:"Pharmacology", cat:"science", catLabel:"Science", icon:"fa-pills",
+    fact:"Penicillin, the first true antibiotic, was discovered entirely by accident in 1928 when Alexander Fleming returned from vacation to find mold killing bacteria in an unwashed petri dish.",
+    source:"NobelPrize.org" },
+  { id:47, field:"Toxicology", cat:"science", catLabel:"Science", icon:"fa-skull-crossbones",
+    fact:"The golden poison dart frog contains enough batrachotoxin to kill 10 adult humans, a toxin it doesn't produce itself but derives from a diet of specific toxic beetles.",
+    source:"National Geographic" },
+  { id:48, field:"Endocrinology", cat:"science", catLabel:"Science", icon:"fa-diagnoses",
+    fact:"Oxytocin, often called the 'love hormone' for its role in bonding, also actively travels to sites of physical injury to reduce inflammation and promote wound healing.",
+    source:"Experimental Physiology" },
+  { id:49, field:"Optics", cat:"science", catLabel:"Science", icon:"fa-glasses",
+    fact:"While the average human eye can distinguish 10 million colors, some individuals have a genetic mutation called tetrachromacy, allowing them to see up to 100 million colors.",
+    source:"Journal of the Optical Society of America" },
+  { id:50, field:"Geochemistry", cat:"science", catLabel:"Science", icon:"fa-flask",
+    fact:"Deep in the atmospheres of Jupiter and Saturn, lightning turns atmospheric methane into soot, which compresses into chunks of graphite and falls as 'diamond rain'.",
+    source:"NASA JPL" },
+
+  // TECHNOLOGY
+  { id:11, field:"Computer Science", cat:"technology", catLabel:"Technology", icon:"fa-computer",
+    fact:"The first computer bug was a literal moth — found trapped in relay 70 of the Harvard Mark II on September 9, 1947, by Grace Hopper's team.",
+    source:"Naval History & Heritage Command — Dahlgren Division, U.S. Navy" },
+  { id:12, field:"Artificial Intelligence", cat:"technology", catLabel:"Technology", icon:"fa-robot",
+    fact:"The term 'Artificial Intelligence' was coined by John McCarthy at the 1956 Dartmouth Summer Research Project on Artificial Intelligence.",
+    source:"McCarthy, J. et al. (1955). A Proposal for the Dartmouth Summer Research Project on AI." },
+  { id:13, field:"Internet", cat:"technology", catLabel:"Technology", icon:"fa-globe",
+    fact:"The World Wide Web was invented by Tim Berners-Lee in 1989 at CERN; the first website (info.cern.ch) went online on August 6, 1991.",
+    source:"CERN — The Birth of the Web; W3C History" },
+  { id:14, field:"Cryptography", cat:"technology", catLabel:"Technology", icon:"fa-lock",
+    fact:"RSA encryption (1977) relies on the extreme difficulty of factoring the product of two very large prime numbers — a problem with no known fast algorithm.",
+    source:"Rivest, Shamir & Adleman (1978). Communications of the ACM 21(2)." },
+  { id:15, field:"Robotics", cat:"technology", catLabel:"Technology", icon:"fa-gears",
+    fact:"Over 3.5 million industrial robots were in operation worldwide in 2022 — a record high — led by China, Japan, the U.S., South Korea, and Germany.",
+    source:"IFR — International Federation of Robotics, World Robotics Report 2023" },
+  { id:16, field:"Data Science", cat:"technology", catLabel:"Technology", icon:"fa-database",
+    fact:"Approximately 2.5 quintillion bytes (2.5 × 10¹⁸ bytes) of data are created every single day as of 2023, doubling roughly every two years.",
+    source:"IBM Data & AI — 'Every Day Big Data Statistics'; IDC Global DataSphere" },
+  { id:17, field:"Cybersecurity", cat:"technology", catLabel:"Technology", icon:"fa-shield-halved",
+    fact:"More than 300,000 new malware samples are detected globally every day, and over 30,000 websites are hacked daily, according to Google's Safe Browsing data.",
+    source:"AV-TEST Institute — Malware Statistics; Google Transparency Report 2023" },
+  { id:18, field:"Telecommunications", cat:"technology", catLabel:"Technology", icon:"fa-tower-broadcast",
+    fact:"The first transatlantic telegraph cable was successfully laid in 1858 by Cyrus Field, cutting the message time between North America and Europe from 10 days to minutes.",
+    source:"Smithsonian Institution — History of the Atlantic Cable & Undersea Communications" },
+  { id:19, field:"Photography", cat:"technology", catLabel:"Technology", icon:"fa-camera",
+    fact:"The oldest surviving photograph, 'View from the Window at Le Gras,' was taken by Joseph Nicéphore Niépce in 1826 using an 8-hour exposure on pewter.",
+    source:"Harry Ransom Center, University of Texas at Austin" },
+  { id:20, field:"Video Games", cat:"technology", catLabel:"Technology", icon:"fa-gamepad",
+    fact:"The global video game industry generated approximately $184 billion in revenue in 2023, surpassing the combined revenues of the film and music industries.",
+    source:"Newzoo — Global Games Market Report 2023" },
+
+  // MATHEMATICS
+  { id:21, field:"Mathematics", cat:"mathematics", catLabel:"Mathematics", icon:"fa-infinity",
+    fact:"Pi (π) has been calculated to over 100 trillion decimal places by Google engineer Emma Haruka Iwao in 2022, yet it remains non-repeating and irrational.",
+    source:"Google Cloud Blog — 'Calculating 100 Trillion Digits of Pi' (2022)" },
+  { id:22, field:"Number Theory", cat:"mathematics", catLabel:"Mathematics", icon:"fa-hashtag",
+    fact:"Euclid proved (~300 BC) that there are infinitely many prime numbers, using a simple contradiction: assume a finite list, multiply all, add 1 — the result is divisible by none.",
+    source:"Euclid, Elements, Book IX, Proposition 20. (Dover Publications Edition)" },
+  { id:23, field:"Algebra", cat:"mathematics", catLabel:"Mathematics", icon:"fa-x",
+    fact:"The word 'algebra' derives from the Arabic 'al-jabr,' from Muhammad ibn Musa al-Khwarizmi's 9th-century treatise 'Kitāb al-mukhtaṣar fī ḥisāb al-jabr wal-muqābalah.'",
+    source:"MacTutor History of Mathematics — University of St Andrews, Scotland" },
+  { id:24, field:"Statistics", cat:"mathematics", catLabel:"Mathematics", icon:"fa-chart-bar",
+    fact:"The Law of Large Numbers was first formally proved by Jakob Bernoulli and published posthumously in Ars Conjectandi (1713): sample averages converge to the true mean.",
+    source:"Bernoulli, J. (1713). Ars Conjectandi. Basel." },
+  { id:25, field:"Geometry", cat:"mathematics", catLabel:"Mathematics", icon:"fa-shapes",
+    fact:"A Möbius strip, discovered independently by Möbius and Listing in 1858, has only one surface and one edge — a non-orientable manifold with no 'inside' or 'outside.'",
+    source:"Möbius, A.F. (1865). Über die Bestimmung des Inhaltes eines Polyëders. Leipzig." },
+  { id:26, field:"Set Theory", cat:"mathematics", catLabel:"Mathematics", icon:"fa-circle-nodes",
+    fact:"Georg Cantor proved in 1874 that some infinities are strictly larger than others: the infinity of real numbers (ℝ) is 'uncountably' larger than the infinity of integers (ℤ).",
+    source:"Cantor, G. (1874). Über eine Eigenschaft des Inbegriffes aller reellen algebraischen Zahlen. Crelle's Journal." },
+  { id:27, field:"Calculus", cat:"mathematics", catLabel:"Mathematics", icon:"fa-wave-square",
+    fact:"Isaac Newton and Gottfried Leibniz independently invented calculus in the 1660s–1680s; their famous priority dispute consumed much of the late 17th-century mathematical world.",
+    source:"Boyer, C.B. (1959). The History of the Calculus. Dover Publications." },
+  { id:28, field:"Topology", cat:"mathematics", catLabel:"Mathematics", icon:"fa-circle-dot",
+    fact:"The Four Color Theorem (1976) was the first major mathematical proof completed with computer assistance, requiring verification of 1,936 reducible configurations.",
+    source:"Appel & Haken (1977). Illinois Journal of Mathematics, 21(3)." },
+
+  // ARTS & CULTURE
+  { id:29, field:"Visual Art", cat:"arts", catLabel:"Arts & Culture", icon:"fa-palette",
+    fact:"The Mona Lisa has no visible eyebrows or eyelashes — a result of a Renaissance fashion trend for women, and possibly gradual fading of delicate brushwork over 500 years.",
+    source:"Louvre Museum, Paris — Conservation Department" },
+  { id:30, field:"Music", cat:"arts", catLabel:"Arts & Culture", icon:"fa-music",
+    fact:"Beethoven composed his Ninth Symphony (1824) while completely deaf — he reportedly had to be turned around at the premiere to see the audience's standing ovation.",
+    source:"Beethoven-Haus Bonn — Historical Documentation" },
+  { id:31, field:"Literature", cat:"arts", catLabel:"Arts & Culture", icon:"fa-book",
+    fact:"William Shakespeare is credited with inventing over 1,700 words still used in modern English, including 'bedroom,' 'generous,' 'lonely,' 'obscene,' and 'swagger.'",
+    source:"Crystal, D. (2008). Think on My Words: Exploring Shakespeare's Language. Cambridge University Press." },
+  { id:32, field:"Architecture", cat:"arts", catLabel:"Arts & Culture", icon:"fa-building",
+    fact:"The Eiffel Tower (324 m) can grow up to 15 cm taller in summer: thermal expansion causes iron to expand at roughly 11.8 × 10⁻⁶ per degree Celsius.",
+    source:"Société d'Exploitation de la Tour Eiffel (SETE) — Official Technical Data" },
+  { id:33, field:"Cinema", cat:"arts", catLabel:"Arts & Culture", icon:"fa-film",
+    fact:"The Lumière brothers held the world's first paid public cinema screening on December 28, 1895, at the Grand Café in Paris, to an audience of 33 people.",
+    source:"Institut Lumière, Lyon — Historical Archives" },
+  { id:34, field:"Theatre", cat:"arts", catLabel:"Arts & Culture", icon:"fa-masks-theater",
+    fact:"Shakespeare's Globe Theatre (1599) could hold 1,500–3,000 spectators; groundlings stood in the open yard for a penny, while seated galleries cost more.",
+    source:"Shakespeare's Globe, London — Historical Research" },
+  { id:35, field:"Fashion", cat:"arts", catLabel:"Arts & Culture", icon:"fa-shirt",
+    fact:"The zipper was patented by Whitcomb L. Judson in 1893 as a 'Clasp Locker.' The name 'zipper' was coined by B.F. Goodrich in 1923 when marketing rubber boots.",
+    source:"Smithsonian National Museum of American History — Innovation Collection" },
+  { id:36, field:"Culinary Arts", cat:"arts", catLabel:"Arts & Culture", icon:"fa-utensils",
+    fact:"France leads the world in Michelin-starred restaurants; as of 2024, Paris alone holds more three-star restaurants than any other single city in the world.",
+    source:"Michelin Guide — Official Restaurant Rankings 2024" },
+  { id:37, field:"Dance", cat:"arts", catLabel:"Arts & Culture", icon:"fa-person-walking",
+    fact:"Ballet originated in the Italian Renaissance courts of the 15th–16th centuries as elaborate court entertainment, before evolving into formal performance art in France.",
+    source:"Chazin-Bennahum, J. (2005). The Lure of Perfection. Routledge." },
+  { id:38, field:"Opera", cat:"arts", catLabel:"Arts & Culture", icon:"fa-microphone",
+    fact:"The world's oldest opera house in continuous use is the Teatro di San Carlo in Naples (1737), predating Milan's La Scala (1778) and Vienna's Staatsoper (1869).",
+    source:"Teatro di San Carlo — Institutional History" },
+
+  // HISTORY
+  { id:39, field:"Ancient History", cat:"history", catLabel:"History", icon:"fa-monument",
+    fact:"The Great Pyramid of Giza (c. 2560 BC) remained the world's tallest man-made structure for approximately 3,800 years, until Lincoln Cathedral was built around 1311 AD.",
+    source:"Lehner, M. (1997). The Complete Pyramids. Thames & Hudson." },
+  { id:40, field:"Roman History", cat:"history", catLabel:"History", icon:"fa-landmark",
+    fact:"The Roman Empire lasted over 1,480 years in total: the Western Empire fell in 476 AD; the Eastern (Byzantine) Empire continued until the fall of Constantinople in 1453 AD.",
+    source:"Gibbon, E. (1776–1789). The Decline and Fall of the Roman Empire. Cambridge Edition." },
+  { id:41, field:"Renaissance", cat:"history", catLabel:"History", icon:"fa-scroll",
+    fact:"Johannes Gutenberg's movable-type printing press (c. 1440–1450) enabled mass book production; by 1500, an estimated 20 million books had been printed across Europe.",
+    source:"Febvre & Martin (1976). The Coming of the Book. Verso." },
+  { id:42, field:"Age of Exploration", cat:"history", catLabel:"History", icon:"fa-compass",
+    fact:"Ferdinand Magellan's expedition (1519–1522) was the first to circumnavigate the globe, though Magellan himself died in the Philippines; only 18 of 270 men completed the voyage.",
+    source:"Pigafetta, A. (1525). Magellan's Voyage: A Narrative Account. Yale University Press." },
+  { id:43, field:"Industrial Revolution", cat:"history", catLabel:"History", icon:"fa-industry",
+    fact:"James Watt's separate-condenser steam engine patent (1769) dramatically improved efficiency; his Boulton & Watt engines catalyzed industrial manufacturing across Britain and Europe.",
+    source:"Mokyr, J. (2009). The Enlightened Economy. Yale University Press." },
+  { id:44, field:"Epidemics", cat:"history", catLabel:"History", icon:"fa-virus",
+    fact:"The 1918 H1N1 'Spanish Flu' pandemic infected an estimated 500 million people (one-third of Earth's population) and killed between 50 and 100 million in just two years.",
+    source:"Taubenberger & Morens (2006). Emerging Infectious Diseases, 12(1). CDC." },
+  { id:45, field:"Cold War", cat:"history", catLabel:"History", icon:"fa-shield",
+    fact:"The Berlin Wall stood for 28 years (August 13, 1961 – November 9, 1989), dividing East and West Berlin; approximately 140 people died attempting to cross it.",
+    source:"Berliner Mauer Dokumentationszentrum — Official Records" },
+  { id:46, field:"Modern History", cat:"history", catLabel:"History", icon:"fa-clock-rotate-left",
+    fact:"The first email was sent by Ray Tomlinson in 1971 between two computers side-by-side at BBN Technologies; he chose the '@' symbol to separate user from host.",
+    source:"BBN Technologies Historical Archive; Abbate, J. (1999). Inventing the Internet. MIT Press." },
+
+  // NATURE & BIOLOGY
+  { id:47, field:"Botany", cat:"nature", catLabel:"Nature", icon:"fa-seedling",
+    fact:"Giant Moso bamboo (Phyllostachys edulis) is the world's fastest-growing plant, recorded growing up to 91 cm (35 inches) in a single 24-hour period.",
+    source:"American Bamboo Society — Species Records" },
+  { id:48, field:"Zoology", cat:"nature", catLabel:"Nature", icon:"fa-paw",
+    fact:"A group of flamingos is called a 'flamboyance.' Flamingos get their pink coloration entirely from carotenoid pigments in their diet of algae and brine shrimp.",
+    source:"Lincoln, R. et al. (2001). A Dictionary of Ecology. Blackwell Science." },
+  { id:49, field:"Mycology", cat:"nature", catLabel:"Nature", icon:"fa-spa",
+    fact:"The largest known living organism is the Armillaria ostoyae honey fungus in Malheur National Forest, Oregon, spanning 9.65 km² and estimated to be 8,000 years old.",
+    source:"Ferguson et al. (2003). Molecular Ecology, 12(10). Oregon State University." },
+  { id:50, field:"Entomology", cat:"nature", catLabel:"Nature", icon:"fa-bug",
+    fact:"Scientists estimate there are approximately 10 quintillion (10¹⁹) individual insects alive on Earth at any given moment — roughly 1.4 billion insects per human.",
+    source:"Wilson, E.O. (1990). The Diversity of Life. Harvard University Press." },
+  { id:51, field:"Ornithology", cat:"nature", catLabel:"Nature", icon:"fa-dove",
+    fact:"Birds are the only living descendants of dinosaurs — specifically of avian theropods (Maniraptora). The 2014 phylogenetic reclassification confirmed they are living dinosaurs.",
+    source:"Padian & Chiappe (1998). Biological Reviews of the Cambridge Philosophical Society, 73(1)." },
+  { id:52, field:"Marine Biology", cat:"nature", catLabel:"Nature", icon:"fa-fish",
+    fact:"Blue whales (Balaenoptera musculus) are the largest animals ever known to have lived, reaching up to 33 m in length and 190 metric tons — larger than any dinosaur.",
+    source:"IUCN Red List — Balaenoptera musculus; Smithsonian Ocean" },
+  { id:53, field:"Herpetology", cat:"nature", catLabel:"Nature", icon:"fa-dragon",
+    fact:"Crocodilians (crocodiles, alligators, gharials) are the closest living relatives of birds among reptiles — both belong to the clade Archosauria and diverged ~250 million years ago.",
+    source:"Hedges & Poling (1999). Science 283(5404). Yale University." },
+  { id:54, field:"Ichthyology", cat:"nature", catLabel:"Nature", icon:"fa-fish-fins",
+    fact:"There are over 34,000 described fish species — more than all other vertebrate classes combined. New species are discovered at a rate of approximately 150 per year.",
+    source:"Eschmeyer's Catalog of Fishes — California Academy of Sciences (2024)" },
+  { id:55, field:"Ecology", cat:"nature", catLabel:"Nature", icon:"fa-leaf",
+    fact:"Marine phytoplankton produce over 50% of Earth's atmospheric oxygen through photosynthesis, making the ocean — not forests — the planet's primary oxygen source.",
+    source:"Field et al. (1998). Science 281(5374). NASA Ocean Biology Processing Group." },
+  { id:56, field:"Evolution", cat:"nature", catLabel:"Nature", icon:"fa-dna",
+    fact:"Charles Darwin and Alfred Russel Wallace independently developed the theory of natural selection in 1858; their papers were jointly presented to the Linnean Society of London.",
+    source:"Darwin & Wallace (1858). Journal of the Proceedings of the Linnean Society, 3." },
+
+  // MEDICINE & HUMAN BODY
+  { id:57, field:"Anatomy", cat:"medicine", catLabel:"Medicine", icon:"fa-person",
+    fact:"The human body contains approximately 37.2 trillion cells (3.72 × 10¹³), according to a 2013 systematic study that counted each major cell type proportionally.",
+    source:"Bianconi et al. (2013). Annals of Human Biology, 40(6)." },
+  { id:58, field:"Cardiology", cat:"medicine", catLabel:"Medicine", icon:"fa-heart-pulse",
+    fact:"The human heart beats approximately 100,000 times per day (70 bpm at rest), pumping about 7,200 liters of blood daily — enough to fill 40 bathtubs.",
+    source:"American Heart Association — Heart & Stroke Statistics 2024" },
+  { id:59, field:"Neuroscience", cat:"medicine", catLabel:"Medicine", icon:"fa-brain",
+    fact:"The human brain contains approximately 86 billion neurons connected by an estimated 100 trillion synapses — making it the most complex known object in the universe.",
+    source:"Azevedo et al. (2009). Journal of Comparative Neurology, 513(5)." },
+  { id:60, field:"Genetics", cat:"medicine", catLabel:"Medicine", icon:"fa-dna",
+    fact:"Human DNA is approximately 98.7% identical to chimpanzee DNA; the remaining ~1.3% differences account for the profound phenotypic and cognitive differences between species.",
+    source:"The Chimpanzee Sequencing Consortium (2005). Nature 437, 69–87." },
+  { id:61, field:"Immunology", cat:"medicine", catLabel:"Medicine", icon:"fa-shield-virus",
+    fact:"The human adaptive immune system can recognize and generate responses to an estimated 10 billion to 1 trillion (10⁹–10¹²) distinct antigens through V(D)J recombination.",
+    source:"Murphy, K. (2011). Janeway's Immunobiology, 8th ed. Garland Science." },
+  { id:62, field:"Ophthalmology", cat:"medicine", catLabel:"Medicine", icon:"fa-eye",
+    fact:"The human eye can distinguish approximately 10 million different colors, according to research on the limits of color discrimination by the cone photoreceptors.",
+    source:"Linhares et al. (2008). Journal of the Optical Society of America A, 25(12)." },
+  { id:63, field:"Dentistry", cat:"medicine", catLabel:"Medicine", icon:"fa-tooth",
+    fact:"Tooth enamel is the hardest biological substance produced by the human body, rating 5 on the Mohs scale — harder than iron yet brittle due to its 95% mineral (hydroxyapatite) content.",
+    source:"Ten Cate's Oral Histology, 9th ed. (2017). Elsevier." },
+  { id:64, field:"Dermatology", cat:"medicine", catLabel:"Medicine", icon:"fa-hand",
+    fact:"The skin is the body's largest organ, covering approximately 1.5–2.0 m² in adults and weighing about 3.5–10 kg; it replaces itself completely every 27 days.",
+    source:"Gray's Anatomy, 41st ed. (2015). Elsevier Churchill Livingstone." },
+  { id:65, field:"Orthopedics", cat:"medicine", catLabel:"Medicine", icon:"fa-bone",
+    fact:"Newborns have approximately 270–300 bones; by adulthood, many fuse together (e.g., the skull's fontanelles) reducing the count to 206 distinct bones.",
+    source:"Standring, S. ed. (2015). Gray's Anatomy, 41st ed. Elsevier." },
+  { id:66, field:"Virology", cat:"medicine", catLabel:"Medicine", icon:"fa-circle-nodes",
+    fact:"The smallest known viruses belong to the Circoviridae family, measuring only 17–22 nm in diameter — roughly 5,000× smaller than the width of a human hair.",
+    source:"ICTV — International Committee on Taxonomy of Viruses (2023)" },
+
+  // EARTH & ENVIRONMENT
+  { id:67, field:"Geology", cat:"earth", catLabel:"Earth & Environment", icon:"fa-mountain",
+    fact:"The Earth's inner core temperature reaches approximately 5,200 °C (±600 °C) — comparable to the surface temperature of the Sun — maintained by radioactive decay and residual formation heat.",
+    source:"Anzellini et al. (2013). Science 340(6131). European Synchrotron Radiation Facility." },
+  { id:68, field:"Seismology", cat:"earth", catLabel:"Earth & Environment", icon:"fa-wave-square",
+    fact:"Approximately 500,000 earthquakes occur worldwide each year; roughly 100,000 are strong enough to be felt, and about 100 cause damage, per USGS records.",
+    source:"USGS — United States Geological Survey, Earthquake Hazards Program" },
+  { id:69, field:"Volcanology", cat:"earth", catLabel:"Earth & Environment", icon:"fa-fire",
+    fact:"There are approximately 1,350–1,500 potentially active volcanoes on Earth; about 50–80 erupt each year, with some continuously erupting, such as Stromboli in Italy.",
+    source:"Smithsonian Institution — Global Volcanism Program (2024)" },
+  { id:70, field:"Meteorology", cat:"earth", catLabel:"Earth & Environment", icon:"fa-cloud-bolt",
+    fact:"Lightning strikes Earth approximately 100 times every second, totaling about 8.6 million lightning strikes per day globally, each reaching temperatures of ~30,000 K.",
+    source:"NASA — Global Hydrology and Climate Center; Vaisala Annual Lightning Report 2023" },
+  { id:71, field:"Oceanography", cat:"earth", catLabel:"Earth & Environment", icon:"fa-water",
+    fact:"The deepest point on Earth is Challenger Deep in the Mariana Trench at 10,935 m below sea level — deeper than Mount Everest is tall above sea level.",
+    source:"Gardner et al. (2014). Marine Geodesy 37(2). NOAA" },
+  { id:72, field:"Hydrology", cat:"earth", catLabel:"Earth & Environment", icon:"fa-droplet",
+    fact:"Only 2.5% of Earth's total water is fresh water; of that, roughly 68.9% is locked in glaciers, leaving just ~0.3% of all water as accessible surface fresh water.",
+    source:"USGS — The World's Water; Gleick, P.H. (1996). Water Resources Encyclopedia." },
+  { id:73, field:"Climate Science", cat:"earth", catLabel:"Earth & Environment", icon:"fa-temperature-high",
+    fact:"Atmospheric CO₂ levels exceeded 421 ppm in 2023 — the highest concentration in at least 3 million years, when sea levels were 15–25 m higher than today.",
+    source:"NOAA — Mauna Loa Observatory Monthly CO₂ Data (2023); Tripati et al. (2009) Science." },
+  { id:74, field:"Paleontology", cat:"earth", catLabel:"Earth & Environment", icon:"fa-dragon",
+    fact:"Non-avian dinosaurs went extinct approximately 66 million years ago at the Cretaceous–Paleogene (K-Pg) boundary, likely triggered by a 10 km asteroid impact at Chicxulub, Mexico.",
+    source:"Schulte et al. (2010). Science 327(5970). The Chicxulub Asteroid Impact and Mass Extinction." },
+
+  // ENGINEERING
+  { id:75, field:"Civil Engineering", cat:"engineering", catLabel:"Engineering", icon:"fa-bridge",
+    fact:"The Great Wall of China spans over 21,196 km in total length across all its sections (Qin, Han, Ming dynasties combined), surveyed by China's National Cultural Heritage Administration in 2012.",
+    source:"China National Cultural Heritage Administration — 2012 Great Wall Survey" },
+  { id:76, field:"Aerospace Engineering", cat:"engineering", catLabel:"Engineering", icon:"fa-plane",
+    fact:"The ISS orbits at ~7.66 km/s (27,600 km/h), completing 15.5 orbits per day at an altitude of ~400 km. Astronauts aboard experience 16 sunrises and sunsets every 24 hours.",
+    source:"NASA — International Space Station Technical Specifications" },
+  { id:77, field:"Automotive Engineering", cat:"engineering", catLabel:"Engineering", icon:"fa-car",
+    fact:"Karl Benz received the patent for his Benz Patent-Motorwagen (Motorwagen No. 1) on January 29, 1886, making it the world's first true gasoline-powered automobile.",
+    source:"German Patent No. 37435. Deutsches Patent- und Markenamt (DPMA)." },
+  { id:78, field:"Energy Engineering", cat:"engineering", catLabel:"Engineering", icon:"fa-solar-panel",
+    fact:"Commercial silicon solar panels convert approximately 15–22% of incident sunlight into electricity; laboratory record-efficiency cells (multi-junction) have exceeded 47% under concentrated light.",
+    source:"NREL — Best Research-Cell Efficiency Chart (2024)" },
+  { id:79, field:"Nanotechnology", cat:"engineering", catLabel:"Engineering", icon:"fa-microscope",
+    fact:"A nanometer (nm) is one billionth of a meter (10⁻⁹ m). A human hair is 80,000–100,000 nm wide; a DNA double helix is only 2 nm in diameter.",
+    source:"National Nanotechnology Initiative (NNI) — U.S. Government R&D Program" },
+  { id:80, field:"Structural Engineering", cat:"engineering", catLabel:"Engineering", icon:"fa-city",
+    fact:"The Burj Khalifa in Dubai (828.0 m) is currently the world's tallest building. Its foundation uses 192 piles drilled 50 m deep into the ground to support its 500,000-ton mass.",
+    source:"Council on Tall Buildings and Urban Habitat (CTBUH) — 2024 Skyscraper Database" },
+
+  // SPACE
+  { id:81, field:"Astronomy", cat:"space", catLabel:"Space", icon:"fa-star",
+    fact:"The observable universe contains an estimated 2 trillion (2 × 10¹²) galaxies, according to a 2016 Hubble Space Telescope deep-field extrapolation — 10× previous estimates.",
+    source:"Conselice et al. (2016). The Astrophysical Journal 830(2)." },
+  { id:82, field:"Cosmology", cat:"space", catLabel:"Space", icon:"fa-universe",
+    fact:"The Big Bang occurred approximately 13.787 ± 0.020 billion years ago, based on measurements of the cosmic microwave background radiation by the Planck satellite mission.",
+    source:"Planck Collaboration (2020). Astronomy & Astrophysics 641, A6." },
+  { id:83, field:"Space Exploration", cat:"space", catLabel:"Space", icon:"fa-rocket",
+    fact:"Yuri Gagarin became the first human in space on April 12, 1961, completing one orbit of Earth in 108 minutes aboard Vostok 1, reaching a maximum altitude of 327 km.",
+    source:"RSC Energia — Vostok 1 Mission Records; ESA Historical Archive" },
+  { id:84, field:"Astrophysics", cat:"space", catLabel:"Space", icon:"fa-meteor",
+    fact:"A teaspoon (~5 mL) of neutron star material would weigh approximately 10 million metric tons on Earth — because neutron stars pack 1.4 solar masses into a sphere just ~20 km across.",
+    source:"Lattimer & Prakash (2004). Science 304(5670). Neutron Star Physics." },
+  { id:85, field:"Planetary Science", cat:"space", catLabel:"Space", icon:"fa-circle",
+    fact:"Olympus Mons on Mars is the tallest volcano and highest known mountain in the solar system at 21.9 km above the Martian datum — nearly 2.5× the height of Mount Everest.",
+    source:"USGS Astrogeology Science Center — Mars Topographic Maps (MOLA data)" },
+  { id:86, field:"Exoplanet Science", cat:"space", catLabel:"Space", icon:"fa-globe",
+    fact:"As of early 2024, astronomers have confirmed over 5,500 exoplanets beyond our solar system, with thousands more candidates awaiting confirmation from missions like TESS and JWST.",
+    source:"NASA Exoplanet Archive — Confirmed Planets Database (2024)" },
+
+  // ECONOMICS & BUSINESS
+  { id:87, field:"Economics", cat:"economics", catLabel:"Economics", icon:"fa-chart-line",
+    fact:"The concept of GDP (Gross Domestic Product) was developed by economist Simon Kuznets for a 1934 U.S. Congress report — he simultaneously warned it should never measure national welfare.",
+    source:"Kuznets, S. (1934). National Income 1929–1932. U.S. Congress. Senate Document No. 124." },
+  { id:88, field:"Finance", cat:"economics", catLabel:"Economics", icon:"fa-coins",
+    fact:"The New York Stock Exchange was founded on May 17, 1792, when 24 stockbrokers signed the Buttonwood Agreement under a buttonwood tree on Wall Street.",
+    source:"NYSE — Exchange History; Perkins, E.J. (1994). American Public Finance. Cambridge University Press." },
+  { id:89, field:"Marketing", cat:"economics", catLabel:"Economics", icon:"fa-bullhorn",
+    fact:"The average person is exposed to between 4,000 and 10,000 brand messages and advertisements daily in modern media-saturated environments, per industry estimates.",
+    source:"Simpson, J. (2017). Finding Brand Success in the Digital World. Forbes; Johnson & Johnson Media Research." },
+  { id:90, field:"Blockchain", cat:"economics", catLabel:"Economics", icon:"fa-link",
+    fact:"Bitcoin was introduced by the pseudonymous Satoshi Nakamoto in a 2008 white paper; the genesis block was mined on January 3, 2009, embedding the headline 'Chancellor on brink of second bailout.'",
+    source:"Nakamoto, S. (2008). Bitcoin: A Peer-to-Peer Electronic Cash System. bitcoin.org" },
+  { id:91, field:"E-Commerce", cat:"economics", catLabel:"Economics", icon:"fa-cart-shopping",
+    fact:"Amazon was founded by Jeff Bezos in his Bellevue, WA garage in July 1994, originally as an online bookstore; it sold its first book ('Fluid Concepts & Creative Analogies') in 1995.",
+    source:"Spector, R. (2000). Amazon.com: Get Big Fast. HarperBusiness." },
+  { id:92, field:"Agriculture", cat:"economics", catLabel:"Economics", icon:"fa-wheat-awn",
+    fact:"Rice (Oryza sativa) feeds more than 50% of the world's population and has been cultivated for approximately 7,000–9,000 years, with origins in the Yangtze River Valley of China.",
+    source:"FAO — Rice Market Monitor 2023; Molina et al. (2011). PNAS 108(20)." },
+
+  // PSYCHOLOGY & SOCIAL SCIENCES
+  { id:93, field:"Psychology", cat:"psychology", catLabel:"Psychology", icon:"fa-brain",
+    fact:"The human brain's memory storage capacity is estimated at approximately 2.5 petabytes (2.5 × 10¹⁵ bytes) — enough to hold 3 million hours of TV shows.",
+    source:"Bhatt, D. & Abbott, L. (2009). Proceedings of the National Academy of Sciences; Salk Institute." },
+  { id:94, field:"Sociology", cat:"psychology", catLabel:"Psychology", icon:"fa-people-group",
+    fact:"Dunbar's Number (150), proposed by anthropologist Robin Dunbar in 1992, is the cognitive limit to the number of stable social relationships a human can maintain simultaneously.",
+    source:"Dunbar, R.I.M. (1992). Neocortex size as a constraint on group size in primates. Journal of Human Evolution, 22(6)." },
+  { id:95, field:"Anthropology", cat:"psychology", catLabel:"Psychology", icon:"fa-person-walking",
+    fact:"Homo sapiens first appeared approximately 300,000 years ago in Africa, based on fossil evidence found at Jebel Irhoud, Morocco, published in a landmark 2017 study.",
+    source:"Hublin et al. (2017). Nature 546, 289–292. Max Planck Institute for Evolutionary Anthropology." },
+  { id:96, field:"Linguistics", cat:"psychology", catLabel:"Psychology", icon:"fa-language",
+    fact:"Approximately 7,000 languages are spoken worldwide today; linguistic experts estimate one language becomes extinct roughly every two weeks as its last speakers die.",
+    source:"Ethnologue — Languages of the World, 27th ed. (2024); UNESCO Atlas of World's Languages in Danger." },
+  { id:97, field:"Philosophy", cat:"psychology", catLabel:"Psychology", icon:"fa-lightbulb",
+    fact:"Socrates (470–399 BC) wrote nothing himself. All our knowledge of his philosophy comes entirely from his students, primarily Plato's dialogues and Xenophon's Memorabilia.",
+    source:"Plato — The Complete Works (Cooper ed.). Hackett Publishing; Stanford Encyclopedia of Philosophy." },
+  { id:98, field:"Political Science", cat:"psychology", catLabel:"Psychology", icon:"fa-flag",
+    fact:"As of 2024, there are 195 internationally recognized sovereign states in the world — 193 UN member states plus Vatican City and the State of Palestine as non-member observers.",
+    source:"United Nations — List of UN Member States (2024); U.S. Department of State — Independent States" },
+  { id:99, field:"Geography", cat:"psychology", catLabel:"Psychology", icon:"fa-map",
+    fact:"Mount Everest grows approximately 4 mm taller each year due to ongoing tectonic uplift as the Indian subcontinent continues to collide with the Eurasian plate.",
+    source:"Searle, M.P. et al. (2006). Geological Society of America Bulletin; Royal Geographical Society." },
+  { id:100, field:"Demography", cat:"psychology", catLabel:"Psychology", icon:"fa-users",
+    fact:"The world's population reached 8 billion people on November 15, 2022, according to UN projections. It took 12 years to add the last billion (from 7 billion in 2011).",
+    source:"United Nations — World Population Prospects 2022; UN DESA Population Division." }
+];
+
+// ─────────── STARS CANVAS ───────────
+const canvas = document.getElementById('stars-canvas');
+const ctx = canvas.getContext('2d');
+let stars = [];
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+function createStars() {
+  stars = [];
+  const n = Math.floor((canvas.width * canvas.height) / 6000);
+  for (let i = 0; i < n; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.2 + 0.2,
+      alpha: Math.random() * 0.7 + 0.1,
+      speed: Math.random() * 0.3 + 0.05,
+      twinkle: Math.random() * Math.PI * 2
+    });
+  }
+}
+function animateStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    s.twinkle += 0.02;
+    const a = s.alpha * (0.6 + 0.4 * Math.sin(s.twinkle));
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${a})`;
+    ctx.fill();
+    s.y -= s.speed;
+    if (s.y < -2) { s.y = canvas.height + 2; s.x = Math.random() * canvas.width; }
+  });
+  requestAnimationFrame(animateStars);
+}
+resizeCanvas(); createStars(); animateStars();
+window.addEventListener('resize', () => { resizeCanvas(); createStars(); });
+
+// ─────────── COUNTER ANIMATION ───────────
+function animateCounter(el, target, suffix) {
+  let current = 0;
+  const step = Math.ceil(target / 60);
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.innerHTML = current + '<span>' + suffix + '</span>';
+    if (current >= target) clearInterval(timer);
+  }, 20);
+}
+const counterEls = document.querySelectorAll('.stat-num[data-target]');
+const counterObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      const target = parseInt(el.dataset.target);
+      const suffix = el.querySelector('span') ? el.querySelector('span').textContent : '';
+      animateCounter(el, target, suffix);
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+counterEls.forEach(el => counterObserver.observe(el));
+
+// ─────────── SCROLL PROGRESS ───────────
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const scrollTop = doc.scrollTop;
+  const scrollHeight = doc.scrollHeight - doc.clientHeight;
+  const pct = (scrollTop / scrollHeight) * 100;
+  document.getElementById('scrollProgress').style.width = pct + '%';
+});
+
+// ─────────── HAMBURGER / MOBILE MENU ───────────
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+document.getElementById('mobileClose').addEventListener('click', () => mobileMenu.classList.remove('open'));
+function closeMobile() { mobileMenu.classList.remove('open'); }
+
+// ─────────── RENDER FACTS ───────────
+const grid = document.getElementById('factsGrid');
+const noResults = document.getElementById('noResults');
+const searchInput = document.getElementById('searchInput');
+const searchCount = document.getElementById('searchCount');
+let activeFilter = 'all';
+
+function renderFacts(data) {
+  // Remove existing cards
+  grid.querySelectorAll('.fact-card').forEach(c => c.remove());
+  noResults.classList.toggle('show', data.length === 0);
+  searchCount.textContent = data.length;
+
+  data.forEach((f, i) => {
+    const card = document.createElement('div');
+    card.className = 'fact-card';
+    card.dataset.cat = f.cat;
+    card.dataset.id = f.id;
+    card.style.transitionDelay = (i % 20) * 0.03 + 's';
+    card.innerHTML = `
+      <div class="fact-card-header">
+        <div>
+          <div class="fact-num">#${String(f.id).padStart(3,'0')}</div>
+          <div class="cat-badge">${f.catLabel}</div>
+        </div>
+        <i class="fa-solid ${f.icon} fact-icon"></i>
+      </div>
+      <div class="fact-field">${f.field}</div>
+      <div class="fact-text">${f.fact}</div>
+      <div class="fact-source"><i class="fa-solid fa-circle-check"></i>${f.source}</div>
+    `;
+    grid.insertBefore(card, noResults);
+
+    // Scroll reveal
+    setTimeout(() => {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.05 });
+      obs.observe(card);
+    }, 10);
+  });
+}
+
+function getFiltered() {
+  const q = searchInput.value.toLowerCase().trim();
+  return facts.filter(f => {
+    const matchCat = activeFilter === 'all' || f.cat === activeFilter;
+    const matchSearch = !q || f.field.toLowerCase().includes(q) || f.fact.toLowerCase().includes(q) || f.catLabel.toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  });
+}
+
+renderFacts(facts);
+
+// ─────────── FILTER BUTTONS ───────────
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.cat;
+    renderFacts(getFiltered());
+  });
+});
+
+// ─────────── SEARCH ───────────
+searchInput.addEventListener('input', () => renderFacts(getFiltered()));
+
+// ─────────── DOWNLOAD BUTTON LOGIC ───────────
+document.getElementById('downloadBtn').addEventListener('click', e => {
+  e.preventDefault();
+  // Placeholder: when author provides document, replace href with actual file path
+  alert('📚 The book document will be available shortly.\nAuthor: Y. Louati\nTitle: Skilled in Almost Everything\n\nPlease check back soon!');
+});
+</script>
+</body>
+</html>
